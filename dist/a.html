@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>quiz_make_page</title>
+  <link rel="stylesheet" href="quiz_make_page.css">
+  <script src="bundle.js" defer></script>
+</head>
+<body>
+  <nav>
+    <h1>Create Quiz</h1>
+  </nav>
+  <n1></n1>
+  <main>
+    <form id="quizd1">
+      <div class="form-group">
+        <label for="quizName">Quiz Name</label><br>
+        <input class="in" type="text" id="quizName" placeholder="Enter quiz name">
+      </div>
+
+      <div class="form-group">
+        <label for="quiztype">Quiz Type</label><br>
+        <select name="quiztype" id="quiztype">
+          <option value="history">History</option>
+          <option value="science">Science and Maths</option>
+          <option value="others">Others</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="numSections">Number of Sections</label><br>
+        <input class="in" type="number" id="numSections" min="1" placeholder="Enter number of sections">
+      </div>
+
+      <div class="form-group">
+        <label for="nettime">Total Time of Test</label><br>
+        <input class="in" type="time" placeholder="Enter total time">
+      </div>
+
+      <div class="form-group">
+        <label for="quizdis">Quiz Description</label><br>
+        <input class="in" type="text" id="quizdis" placeholder="Enter quiz description">
+      </div>
+      
+      <p id="p2"></p>
+      <button type="button" id="generateSections">Generate Sections</button>
+  
+      <!-- Section Inputs -->
+      <div id="sectionsContainer"></div>
+
+      <button type="submit" id="saveQuiz" style="margin-top: 20px; display: none;">Save Quiz</button>
+    </form>
+  </main>
+
+  <script>
+    // References
+    const quizNameInput = document.getElementById("quizName");
+    const numSectionsInput = document.getElementById("numSections");
+    const generateSectionsButton = document.getElementById("generateSections");
+    const sectionsContainer = document.getElementById("sectionsContainer");
+    const saveQuizButton = document.getElementById("saveQuiz");
+
+    // Handle Generate Sections
+    generateSectionsButton.addEventListener("click", () => {
+      // Clear existing sections
+      sectionsContainer.innerHTML = "";
+
+      // Get the number of sections
+      const numSections = parseInt(numSectionsInput.value, 10);
+
+      if (isNaN(numSections) || numSections <= 0) {
+        alert("Please enter a valid number of sections.");
+        return;
+      }
+
+      // Generate section input fields
+      for (let i = 1; i <= numSections; i++) {
+        const sectionDiv = document.createElement("div");
+        sectionDiv.classList.add("section-container");
+        sectionDiv.innerHTML = `
+          <div class="section-title">Section ${i}</div>
+          <div class="form-group">
+            <label for="sectionName${i}">Section Name:</label>
+            <input type="text" id="sectionName${i}" placeholder="Enter section name">
+          </div>
+          <div class="form-group">
+            <label for="numQuestions${i}">Number of Questions:</label>
+            <input type="number" id="numQuestions${i}" min="1" placeholder="Enter number of questions">
+          </div>
+          <button type="button" onclick="generateQuestions(${i})">Generate Questions</button>
+          <div id="questionsContainer${i}"></div>
+        `;
+
+        sectionsContainer.appendChild(sectionDiv);
+      }
+
+      // Show Save Button
+      saveQuizButton.style.display = "block";
+    });
+
+    // Function to generate questions for a section
+    window.generateQuestions = (sectionIndex) => {
+      const numQuestions = parseInt(document.getElementById(`numQuestions${sectionIndex}`).value, 10);
+      const questionsContainer = document.getElementById(`questionsContainer${sectionIndex}`);
+      questionsContainer.innerHTML = '';
+
+      if (isNaN(numQuestions) || numQuestions <= 0) {
+        alert("Please enter a valid number of questions.");
+        return;
+      }
+
+      for (let j = 1; j <= numQuestions; j++) {
+        const questionDiv = document.createElement("div");
+        questionDiv.classList.add("question-container");
+        questionDiv.innerHTML = `
+          <div class="question-title">Question ${j}</div>
+          <div class="form-group">
+            <label for="questionText${sectionIndex}_${j}">Question:</label>
+            <input type="text" id="questionText${sectionIndex}_${j}" placeholder="Enter question text">
+          </div>
+          <div class="form-group">
+            <label for="numOptions${sectionIndex}_${j}">Number of Options:</label>
+            <input type="number" id="numOptions${sectionIndex}_${j}" min="2" placeholder="Enter number of options">
+          </div>
+          <button type="button" onclick="generateOptions(${sectionIndex}, ${j})">Generate Options</button>
+          <div id="optionsContainer${sectionIndex}_${j}"></div>
+        `;
+
+        questionsContainer.appendChild(questionDiv);
+      }
+    };
+
+    // Function to generate options for a question
+    window.generateOptions = (sectionIndex, questionIndex) => {
+      const numOptions = parseInt(document.getElementById(`numOptions${sectionIndex}_${questionIndex}`).value, 10);
+      const optionsContainer = document.getElementById(`optionsContainer${sectionIndex}_${questionIndex}`);
+      optionsContainer.innerHTML = '';
+
+      if (isNaN(numOptions) || numOptions <= 0) {
+        alert("Please enter a valid number of options.");
+        return;
+      }
+
+      for (let k = 1; k <= numOptions; k++) {
+        const optionDiv = document.createElement("div");
+        optionDiv.classList.add("option-container");
+        optionDiv.innerHTML = `
+          <div class="option-title">Option ${k}</div>
+          <input type="text" id="optionText${sectionIndex}_${questionIndex}_${k}" placeholder="Enter option text">
+          <input type="radio" name="correctOption${sectionIndex}_${questionIndex}" value="${k}"> Correct Option
+        `;
+
+        optionsContainer.appendChild(optionDiv);
+      }
+    };
+
+    // Handle Save Quiz
+    saveQuizButton.addEventListener("click", (e) => {
+      e.preventDefault();
+
+      const quizName = quizNameInput.value;
+      const numSections = parseInt(numSectionsInput.value, 10);
+      const sections = [];
+
+      if (!quizName) {
+        alert("Please enter a quiz name.");
+        return;
+      }
+
+      for (let i = 1; i <= numSections; i++) {
+        const sectionName = document.getElementById(`sectionName${i}`).value;
+        const numQuestions = parseInt(document.getElementById(`numQuestions${i}`).value, 10);
+        const questions = [];
+
+        if (!sectionName || isNaN(numQuestions) || numQuestions <= 0) {
+          alert(`Please complete all details for Section ${i}.`);
+          return;
+        }
+
+        for (let j = 1; j <= numQuestions; j++) {
+          const questionText = document.getElementById(`questionText${i}_${j}`).value;
+          const numOptions = parseInt(document.getElementById(`numOptions${i}_${j}`).value, 10);
+          const options = [];
+
+          if (!questionText || isNaN(numOptions) || numOptions <= 0) {
+            alert(`Please complete all details for Question ${j} in Section ${i}.`);
+            return;
+          }
+
+          let correctOption = null;
+          for (let k = 1; k <= numOptions; k++) {
+            const optionText = document.getElementById(`optionText${i}_${j}_${k}`).value;
+            const isCorrect = document.querySelector(`input[name="correctOption${i}_${j}"]:checked`);
+
+            if (!optionText) {
+              alert(`Please complete Option ${k} for Question ${j} in Section ${i}.`);
+              return;
+            }
+
+            options.push({ optionText });
+            if (isCorrect && isCorrect.value == k) {
+              correctOption = k;
+            }
+          }
+
+          if (correctOption === null) {
+            alert(`Please select the correct option for Question ${j} in Section ${i}.`);
+            return;
+          }
+
+          questions.push({ questionText, numOptions, correctOption, options });
+        }
+
+        sections.push({ sectionName, numQuestions, questions });
+      }
+
+      // Store or send quiz details
+      const quizDetails = {
+        quizName,
+        numSections,
+        sections
+      };
+      console.log(quizDetails);
+    });
+  </script>
+</body>
+</html>

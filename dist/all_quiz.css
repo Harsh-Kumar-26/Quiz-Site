@@ -1,0 +1,156 @@
+* {
+    padding:0px;
+    margin:0px;
+}
+body{
+    background-color: lightgreen;
+    font-family: Quicksand, sans-serif;
+    padding:0;
+    margin:0;
+}
+nav{
+    background-color: darkgreen;
+    display: flex;
+    flex-wrap: wrap;
+    height:auto;
+    width: 80%;
+    padding:18px;
+    justify-content: space-between;
+    border-radius: 30px;
+    align-items: center;
+    margin:20px auto;
+    /* position:sticky; */
+    top:18px;
+}
+#main{
+    font-weight: bolder;
+    font-size: larger;
+    position: relative;
+    right:37vw;
+}
+#login{
+    background-color: darkgreen;
+    border:none;
+    font-weight: bold;
+    padding:0 0.7812vw;
+    transition: all 0.25s;
+}
+#login:hover{
+    color:orange;
+    cursor: pointer;
+    transform: translate(0px,-1px);
+}
+#signup{
+    border:none;
+    background-color: blue;
+    color:white;
+    font-weight: bold;
+    border-radius: 20px;
+    padding:0.8167vh 0.8734vw;
+    /* padding:0.5167vh 0.4734vw; */
+    box-shadow: 0 0 4px 0 #7d7c83;
+    transition: all 0.25s;
+}
+#signup:hover{
+    background-color: #0251c7;
+    cursor: pointer;
+    transform: translate(0px,-1px);
+    padding:0.8167vh 0.8734vw;
+}
+#back{
+    border:none;
+    background-color: red;
+    color:black;
+    font-weight: bold;
+    border-radius: 20px;
+    padding:0.8167vh 0.8734vw;
+    /* padding:0.5167vh 0.4734vw; */
+    /* box-shadow: 0 0 4px 0 #7d7c83; */
+    transition: all 0.25s;
+}
+#back:hover{
+    background-color: red;
+    cursor: pointer;
+    transform: translate(0px,-1px);
+    padding:0.8167vh 0.8734vw;
+}
+main{
+    background-color: white;
+    width:70%;
+    margin:1.389vh auto;
+    padding:1.736vh 0.9765vw;
+    border-radius: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height:auto;
+    /* background-color: #f6f6f6; */
+}
+
+footer{
+    background-color: black;
+    height: auto;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    padding-left:3%;
+    padding-bottom: 1%;
+    margin-top:5%;
+    padding-top:1%;
+}
+#Cyberlabs{
+    color:white;
+    width:auto;
+    height:auto;
+}
+#cl{
+    padding:2%;
+    font-weight: bold;
+    font-size: x-large;
+    color: white;
+    
+}
+#name{
+    font-size: large;
+    padding-top:3%;
+    color: white;
+}
+#mail{
+    font-size: medium;
+    padding-bottom: 3%;
+    color: white;
+}
+#last{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+@media screen and (max-width:360px) {
+    #main{
+        font-size: medium;
+    }
+
+    
+}
+#sorting{
+    display:flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: end;
+    width:95%;
+}
+select{
+    border-radius: 40px;
+    margin:5px;
+    padding:2px;
+    background-color: #f6f6f6;
+    /* border: none; */
+}
+select:hover{
+    cursor: pointer;
+    /* border:none; */
+}
